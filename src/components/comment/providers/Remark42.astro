@@ -13,6 +13,7 @@ declare global {
       locale: string;
       show_email_subscription: boolean;
       simple_view: boolean;
+      __colors__?: Record<string, string>;
     };
     REMARK42: {
       createInstance: (config: {
@@ -24,6 +25,7 @@ declare global {
         locale: string;
         show_email_subscription: boolean;
         simple_view: boolean;
+        __colors__?: Record<string, string>;
       }) => Remark42Instance;
       ready: boolean;
       changeTheme?: (theme: 'light' | 'dark') => void;
@@ -45,6 +47,17 @@ const remarkSiteId = commentConfig.remark42?.siteId ?? '';
 
 <script is:inline define:vars={{ remarkUrl, remarkSiteId }}>
   let remark42Instance = null;
+  // Theme-token override for the cross-origin Remark42 iframe.
+  // Remark42 injects these via inline style on the iframe's <html>, so they
+  // outrank the widget's own `:root .dark` rules — pick a brand color that
+  // works for both light and dark mode (ocean blue palette, matches the site).
+  // Values are RGB tuples: see Remark42 frontend `custom-properties.css`.
+  const REMARK_BRAND_COLORS = {
+    '--primary-color': '22, 109, 166',         /* ocean-500  #166DA6 */
+    '--primary-brighter-color': '88, 192, 219', /* ocean-400  #58C0DB */
+    '--primary-darker-color': '6, 52, 103',     /* ocean-800  #063467 */
+  };
+
   // Configuration for Remark42 - uses site config passed from server
   window.remark_config = {
     host: remarkUrl,
@@ -55,6 +68,7 @@ const remarkSiteId = commentConfig.remark42?.siteId ?? '';
     locale: 'en',
     show_email_subscription: false,
     simple_view: true,
+    __colors__: REMARK_BRAND_COLORS,
   };
 
   // Initialize Remark42 instance
@@ -77,6 +91,7 @@ const remarkSiteId = commentConfig.remark42?.siteId ?? '';
           locale: window.remark_config.locale,
           show_email_subscription: window.remark_config.show_email_subscription,
           simple_view: window.remark_config.simple_view,
+          __colors__: window.remark_config.__colors__,
         });
       }
     }

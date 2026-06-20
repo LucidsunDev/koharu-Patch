@@ -492,7 +492,10 @@ navigation:
     # path: # 用于区分不同文章的自定义 js 路径，如果您的文章路径不是 location.pathname，需传此参数
     # lang: # 语言 (默认: 'zh-CN')
 comment:
-  provider: none  # 'remark42' | 'giscus' | 'waline' | 'twikoo' | 'none'
+  provider: remark42  # 'remark42' | 'giscus' | 'waline' | 'twikoo' | 'none'
+  remark42:
+    host: https://demo.remark42.com  # Remark42 公共 demo 实例（仅用于本地 UI 预览，数据会被清理，不要用于生产）
+    siteId: remark                    # Remark42 demo 实例默认 siteId（官方文档：remark by default）
   # remark42:
   #   host: https://comment.example.com/
   #   siteId: your-site-id
